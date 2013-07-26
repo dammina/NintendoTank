@@ -25,11 +25,12 @@ public class WizardGame extends BasicGame
 {
 	private TiledMap grassMap;
 	private static ArrayList<coins> coins;
+	private static ArrayList<lifes> lifes;
 	private Animation [] bricks;
 	private Animation [] water;
 	private Animation [] stones;
 	private Animation [] coin;
-	private Animation [] health;
+	private Animation [] life;
 	
 	private static Animation [] sprite;
 	private static Animation [] up;
@@ -46,6 +47,7 @@ public class WizardGame extends BasicGame
 	private static String[] players;
 	private static String[] xc,yc,dir;
 	private coins coinPile;
+	private lifes lifePack;
 	
 	
     public WizardGame()
@@ -114,6 +116,7 @@ public class WizardGame extends BasicGame
     	right=new Animation[5];
     	
     	coins=new ArrayList<coins>();
+    	lifes=new ArrayList<lifes>();
     	
     	up[0] = new Animation(movementUp1, duration, false);
     	down[0] = new Animation(movementDown1, duration, false);
@@ -144,7 +147,7 @@ public class WizardGame extends BasicGame
     	water=new Animation[100];
     	stones=new Animation[100];
     	coin=new Animation[100];
-    	health=new Animation[100];
+    	life=new Animation[100];
     	
     	
     	try {
@@ -206,7 +209,7 @@ public class WizardGame extends BasicGame
     	try {
         	
 			msg=server.readMessage();
-			System.out.println("updateeeeeee:::::::::::::"+msg);
+//			System.out.println("updateeeeeee:::::::::::::"+msg);
 			String[] brockenMsg3=msg.split("#");
 			String[] brockenMsg4=brockenMsg3[0].split(":");
 			
@@ -214,8 +217,21 @@ public class WizardGame extends BasicGame
 				for(int i=1;i<players.length;i++){
 					xc[i-1]=brockenMsg4[i].split(";")[1].split(",")[0];
 					yc[i-1]=brockenMsg4[i].split(";")[1].split(",")[1];
-					
 					dir[i-1]=brockenMsg4[i].split(";")[2];
+					
+					for(int j=0;j<coins.size();j++){
+						if(coins.get(j).getX()==Integer.parseInt(xc[i-1]) && coins.get(j).getY()==Integer.parseInt(yc[i-1])){
+							coins.remove(j);
+							j--;
+						}
+					}
+					for(int j=0;j<lifes.size();j++){
+						if(lifes.get(j).getX()==Integer.parseInt(xc[i-1]) && lifes.get(j).getY()==Integer.parseInt(yc[i-1])){
+							lifes.remove(j);
+							j--;
+						}
+					}
+					
 				}
 				for(int i=0;i<coins.size();i++){
 					coins.get(i).setLife(coins.get(i).getLife()-delta);
@@ -223,13 +239,20 @@ public class WizardGame extends BasicGame
 						coins.remove(i);
 						i--;
 					}
-					
+				}
+				for(int i=0;i<lifes.size();i++){
+					lifes.get(i).setLife(lifes.get(i).getLife()-delta);
+					if(lifes.get(i).getLife()/1000<=0){
+						lifes.remove(i);
+						i--;
+					}
 				}
 			}else if(brockenMsg4[0].equals("C")){
 				coinPile=new coins(Integer.parseInt(brockenMsg4[3]), Integer.parseInt(brockenMsg4[2]), Integer.parseInt(brockenMsg4[1].split(",")[0]), Integer.parseInt(brockenMsg4[1].split(",")[1]),new Animation(placeCoins, 300));
 				coins.add(coinPile);
 			}else if(brockenMsg4[0].equals("L")){
-				
+				lifePack=new lifes(Integer.parseInt(brockenMsg4[1].split(",")[0]), Integer.parseInt(brockenMsg4[1].split(",")[1]), Integer.parseInt(brockenMsg4[2]), new Animation(placeLifes, 300));
+				lifes.add(lifePack);
 			}
 				
 			
@@ -316,6 +339,9 @@ public class WizardGame extends BasicGame
     	
     	for(int i=0;i<coins.size();i++){
 			coins.get(i).getAnim().draw(coins.get(i).getX()*32,coins.get(i).getY()*32,32,32);
+    	}
+    	for(int i=0;i<lifes.size();i++){
+			lifes.get(i).getAnim().draw(lifes.get(i).getX()*32,lifes.get(i).getY()*32,32,32);
     	}
 //    	System.out.println("crappppppppppppppppp");
     }
