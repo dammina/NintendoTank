@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="10" height="10" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="grass" tilewidth="32" tileheight="32">
+  <image source="grass.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="17" name="rocks" tilewidth="32" tileheight="32">
+  <image source="rocks.png" width="128" height="128"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="10" height="10">
+  <data encoding="csv">
+1,2,3,4,16,22,1,2,3,4,
+5,6,7,8,25,26,5,6,7,8,
+9,10,11,12,29,30,9,10,11,12,
+17,17,18,1,2,3,4,17,16,18,
+16,16,22,5,6,7,8,16,16,16,
+25,16,26,9,10,11,12,25,25,16,
+29,16,16,13,14,15,16,29,29,30,
+5,6,7,8,17,18,5,6,7,8,
+9,10,11,12,21,16,9,10,11,12,
+13,14,15,16,25,26,13,14,15,16
+</data>
+ </layer>
+</map>
