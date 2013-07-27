@@ -49,6 +49,8 @@ public class WizardGame extends BasicGame
 	private coins coinPile;
 	private lifes lifePack;
 	
+	private Client myTank;
+	
 	
     public WizardGame()
     {
@@ -206,6 +208,11 @@ public class WizardGame extends BasicGame
     {
     	Image [] placeCoins= {new Image("Images/Coins.png"), new Image("Images/Coins.png")};
     	Image [] placeLifes= {new Image("Images/Lifes.png"), new Image("Images/Lifes.png")};
+    	/*myTank=new Client();
+    	myTank.sendMessage("DOWN#");
+    	myTank.sendMessage("LEFT#");
+    	myTank.sendMessage("UP#");*/
+    	
     	try {
         	
 			msg=server.readMessage();
