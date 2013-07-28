@@ -24,7 +24,7 @@ import org.newdawn.slick.tiled.TiledMap;
 public class WizardGame extends BasicGame
 {
 	private TiledMap grassMap;
-	private static ArrayList<coins> coins;
+	public static ArrayList<coins> coins;
 	private static ArrayList<lifes> lifes;
 	private static ArrayList<bricks> bricks_destroyed;
 	private Animation [] bricks;
@@ -32,6 +32,10 @@ public class WizardGame extends BasicGame
 	private Animation [] stones;
 	private Animation [] coin;
 	private Animation [] life;
+	public static ArrayList<Integer> blocked;
+	
+	public static int playerNo;
+	private static int cl;
 	
 	private static Animation [] sprite;
 	private static Animation [] up;
@@ -46,12 +50,13 @@ public class WizardGame extends BasicGame
 	private static String[] stoneCods;
 
 	private static String[] players;
-	private static String[] xc,yc,dir;
+	public static String[] xc,yc,dir;
 	private coins coinPile;
 	private lifes lifePack;
 	private bricks destroyed_brick;
 	
 	private Client myTank;
+	private AI intelli;
 	
 	private boolean temp;
 	
@@ -124,6 +129,7 @@ public class WizardGame extends BasicGame
     	coins=new ArrayList<coins>();
     	lifes=new ArrayList<lifes>();
     	bricks_destroyed=new ArrayList<bricks>();
+    	blocked=new ArrayList<Integer>();
     	
     	up[0] = new Animation(movementUp1, duration, false);
     	down[0] = new Animation(movementDown1, duration, false);
@@ -156,12 +162,11 @@ public class WizardGame extends BasicGame
     	coin=new Animation[100];
     	life=new Animation[100];
     	
-    	
     	try {
 			msg = server.readMessage();
 			System.out.println(msg);
 			String [] brockenMsg = msg.split(":");
-			char playerNo=brockenMsg[1].charAt(1);
+			playerNo=Integer.parseInt(brockenMsg[1].charAt(1)+"");
 			brickCods=brockenMsg[2].split(";");
 			stoneCods=brockenMsg[3].split(";");
 			waterCods=brockenMsg[4].split(";");
@@ -214,6 +219,7 @@ public class WizardGame extends BasicGame
     	Image [] placeCoins= {new Image("Images/Coins.png"), new Image("Images/Coins.png")};
     	Image [] placeLifes= {new Image("Images/Lifes.png"), new Image("Images/Lifes.png")};
     	myTank=new Client();
+    	intelli=new AI();
     	
 //    	myTank.sendMessage("LEFT#");
 //    	myTank.sendMessage("UP#");
@@ -221,15 +227,15 @@ public class WizardGame extends BasicGame
     	try {
         	
 			msg=server.readMessage();
-			myTank.sendMessage("SHOOT#");
-			System.out.println("updateeeeeee:::::::::::::"+msg);
+			
+//			System.out.println("updateeeeeee:::::::::::::"+msg);
 			String[] brockenMsg3=msg.split("#");
 			String[] brockenMsg4=brockenMsg3[0].split(":");
-			
 			
 //			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::::::::::::       "+brockenMsg5.length);
 			
 			if(brockenMsg4[0].equals("G")){
+				intelli.AIfunc();
 				String[] brockenMsg5=brockenMsg4[players.length].split(";");
 				for(int i=1;i<players.length;i++){
 					xc[i-1]=brockenMsg4[i].split(";")[1].split(",")[0];
@@ -315,6 +321,7 @@ public class WizardGame extends BasicGame
  
     public void render(GameContainer container, Graphics g) throws SlickException
     {
+    	
     	grassMap.render(0, 0);
     	for(int i=1;i<players.length;i++){
 //    		System.out.println(xc[i-1]+"|||||||||||||||||||||||||||"+yc[i-1]+"//////////////////"+dir[i-1]);
@@ -343,8 +350,12 @@ public class WizardGame extends BasicGame
     			if(bricks_destroyed.get(j).getX()==x && bricks_destroyed.get(j).getY()==y)
     				temp=true;    			
     		}
-    		if(!temp)
+    		if(!temp){
     			bricks[i].draw((int)x*32,(int)y*32,32,32);
+    			cl=(int)x*10+(int)y;
+    		}
+    		if(!blocked.contains(cl))
+    			blocked.add(cl);
 //    		System.out.println("#####B "+x+" "+y);
     	}
     	
@@ -354,6 +365,9 @@ public class WizardGame extends BasicGame
     		y=Integer.parseInt(stoneCods[i].split(",")[1]);
 //    		System.out.println("#####S "+x+" "+y);
     		stones[i].draw((int)x*32,(int)y*32,32,32);
+    		cl=(int)x*10+(int)y;
+    		if(!blocked.contains(cl))
+    			blocked.add(cl);
     	}
     	
     	for(int i=0;i<waterCods.length;i++){
@@ -364,6 +378,9 @@ public class WizardGame extends BasicGame
     			y=Integer.parseInt(waterCods[i].split(",")[1]);
 //    		System.out.println("#####W "+x+" "+y);
     		water[i].draw((int)x*32,(int)y*32,32,32);
+    		cl=(int)x*10+(int)y;
+    		if(!blocked.contains(cl))
+    			blocked.add(cl);
     	}
     	
     	for(int i=0;i<coins.size();i++){
