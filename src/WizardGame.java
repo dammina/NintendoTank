@@ -87,7 +87,7 @@ public class WizardGame extends BasicGame
     @Override
     public void init(GameContainer container) throws SlickException
     {
-    	grassMap = new TiledMap("Images/map1.tmx");  
+    	grassMap = new TiledMap("Images/map14.tmx");  
     	
     	Image [] movementUp1 = {new Image("Images/wmg1_bk1.png"), new Image("Images/wmg1_bk2.png")};
     	Image [] movementDown1 = {new Image("Images/wmg1_fr1.png"), new Image("Images/wmg1_fr2.png")};
@@ -235,7 +235,7 @@ public class WizardGame extends BasicGame
 //			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::::::::::::       "+brockenMsg5.length);
 			
 			if(brockenMsg4[0].equals("G")){
-				intelli.AIfunc();
+//				intelli.AIfunc();
 				String[] brockenMsg5=brockenMsg4[players.length].split(";");
 				for(int i=1;i<players.length;i++){
 					xc[i-1]=brockenMsg4[i].split(";")[1].split(",")[0];
@@ -277,6 +277,7 @@ public class WizardGame extends BasicGame
 						i--;
 					}
 				}
+				intelli.AIfunc();
 			}else if(brockenMsg4[0].equals("C")){
 				coinPile=new coins(Integer.parseInt(brockenMsg4[3]), Integer.parseInt(brockenMsg4[2]), Integer.parseInt(brockenMsg4[1].split(",")[0]), Integer.parseInt(brockenMsg4[1].split(",")[1]),new Animation(placeCoins, 300));
 				coins.add(coinPile);

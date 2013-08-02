@@ -48,7 +48,7 @@ public class AI {
 //	 	   cell cl2=new cell((i+1)/10, (i+1)%10);
 //	 	   cell cl3=new cell((i+10)/10, (i+10)%10);
 	 	   
-	 	   if(i+1<100 && !WizardGame.blocked.contains(i) && !WizardGame.blocked.contains(i+1)){
+	 	   if(i+1<100 && !WizardGame.blocked.contains(i) && !WizardGame.blocked.contains(i+1) && i%10!=9){
 	 		   
 	 		   Edge ed1=new Edge(i+"",nodes.get(i), nodes.get(i+1),1);
 	 		   edges.add(ed1);
@@ -93,14 +93,35 @@ public class AI {
 	    }
 	    dijkstra.execute(nodes.get(x*10+y));
 	    path = dijkstra.getPath(nodes.get(min));
-	    if(path!=null){
+	    /*if(path!=null){
     		for (int k=0;k<path.size();k++) {
     			System.out.print(" "+path.get(k));
     		}
+    	}*/
+	    if(path!=null){
+    		for (int k=1;k<path.size();k++) {
+    			System.out.print(" "+path.get(k));
+    		}
     	}
-	    if(path==null)
-	    	System.out.println("min: "+min);
-	    if(path!=null && Integer.parseInt((path.get(1).toString()))/10>x)
+	    if(path==null || path.getLast().toString().equals("0")){
+	    	if((x==0 || x==1 || x==2 || x==3) && !WizardGame.blocked.contains((x+1)*10+y))
+	    		myClient.sendMessage("RIGHT#");
+	    	else if((x==6 || x==7 || x==8 || x==9) && !WizardGame.blocked.contains((x-1)*10+y))
+	    		myClient.sendMessage("LEFT#");
+	    	else if((y==0 || y==1 || y==2 || y==3) && !WizardGame.blocked.contains((x)*10+(y+1)))
+	    		myClient.sendMessage("DOWN#");
+	    	else if((y==6 || y==7 || y==8 || y==9) && !WizardGame.blocked.contains((x)*10+(y-1)))
+	    		myClient.sendMessage("UP#");
+	    	else
+	    		myClient.sendMessage("SHOOT#");
+//	    	myClient.sendMessage("SHOOT#");
+//	    	dijkstra.execute(nodes.get(x*10+y));
+//	    	path = dijkstra.getPath(nodes.get(55));	
+//	    	myClient.sendMessage("SHOOT#");
+//	    	System.out.println("min: "+min);
+	    }
+	    
+	    else if(path!=null && Integer.parseInt((path.get(1).toString()))/10>x)
 	    	myClient.sendMessage("RIGHT#");
 	    else if(path!=null && Integer.parseInt((path.get(1).toString()))/10<x)
 	    	myClient.sendMessage("LEFT#");
@@ -120,9 +141,9 @@ public class AI {
 //		int rndm=(int)(Math.random()*5);
 //		myClient.sendMessage(move[rndm]);	
 	}
-	public int pytho(int x1,int x2,int y1,int y2){
+	/*public int pytho(int x1,int x2,int y1,int y2){
 		return (int)Math.sqrt(Math.pow((x1-x2), 2)+Math.pow(y1, y2));
-	}
+	}*/
 }
 
 class Vertex {

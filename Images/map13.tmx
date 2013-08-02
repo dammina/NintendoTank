@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="10" height="10" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="grass" tilewidth="32" tileheight="32">
+  <image source="grass.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="17" name="rocks" tilewidth="32" tileheight="32">
+  <image source="rocks.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="33" name="grass1" tilewidth="32" tileheight="32">
+  <image source="grass1.png" width="128" height="128"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="10" height="10" opacity="0.76">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC33NWwrAIAxE0WzFGtu0tY/9r64jKAwh9uOAJBeTRCR1hYzZAtntd1Jcx/uLcKPB/oYn6Pz+pTsrbGBBM/5pdw44oQad0h2e89sm1HV1wqj509oPYIjFoZABAAA=
+  </data>
+ </layer>
+</map>
