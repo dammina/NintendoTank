@@ -69,21 +69,21 @@ public class AI {
 		DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
 		minLoc=1000;
 		//#############################################################################################
-		/*if(Integer.parseInt(WizardGame.health[WizardGame.playerNo])<=200 && WizardGame.lifes.size()>0){
+		if(Integer.parseInt(WizardGame.health[WizardGame.playerNo])<=200 && WizardGame.lifes.size()>0){
 			for(int i=0;i<WizardGame.lifes.size();i++){	
-				dijkstra.execute(nodes.get(x*10+y));
-				health_location=WizardGame.lifes.get(i).getX()*10+WizardGame.lifes.get(i).getY();
+				dijkstra.execute(nodes.get(x*20+y));
+				health_location=WizardGame.lifes.get(i).getX()*20+WizardGame.lifes.get(i).getY();
 				path = dijkstra.getPath(nodes.get(health_location));	
 
 				if(path!=null && path.size()<minLoc){
 					minLoc=path.size();
-					min=coin_location;
+					min=health_location;
 				}
 			}
-			dijkstra.execute(nodes.get(x*10+y));
+			dijkstra.execute(nodes.get(x*20+y));
 			path = dijkstra.getPath(nodes.get(min));
-			System.out.println("health");
-		}*/
+//			System.out.println("health");
+		}
 
 		//##############################################################################################
 		//		System.out.println(Integer.parseInt(WizardGame.health[WizardGame.playerNo]));
@@ -110,6 +110,7 @@ public class AI {
 //	    	}*/
 
 		}
+		//£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££
 		dijkstra.execute(nodes.get(x*20+y));
 		path = dijkstra.getPath(nodes.get(min));
 //		System.out.println("coin");

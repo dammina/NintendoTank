@@ -410,37 +410,20 @@ public class WizardGame extends BasicGame
 		g.drawLine(34*32, 2*32, 34*32, 8*32);
 		g.drawLine(38*32, 2*32, 38*32, 8*32);
 		
+		g.drawString("Player ID", (int)(22.5*32), (int)(2.25*32));
+		g.drawString("Points", (int)(26.5*32), (int)(2.25*32));
+		g.drawString("Coins", (int)(30.5*32), (int)(2.25*32));
+		g.drawString("Health", (int)(34.5*32), (int)(2.25*32));
+		//		System.out.println("playes.lenght="+players.length);
 		if(pts[0]!=null){
-			g.drawString("Player ID", (int)(22.5*32), (int)(2.25*32));
-			g.drawString("Points", (int)(26.5*32), (int)(2.25*32));
-			g.drawString("Coins", (int)(30.5*32), (int)(2.25*32));
-			g.drawString("Health", (int)(34.5*32), (int)(2.25*32));
-
-			g.drawString("Player 1", (int)(22.5*32), (int)(3.25*32));
-			g.drawString(pts[0], (int)(26.5*32), (int)(3.25*32));
-			g.drawString(cns[0], (int)(30.5*32), (int)(3.25*32));
-			g.drawString(health[0], (int)(34.5*32), (int)(3.25*32));
-
-			g.drawString("Player 2", (int)(22.5*32), (int)(4.25*32));
-			g.drawString(pts[1], (int)(26.5*32), (int)(4.25*32));
-			g.drawString(cns[1], (int)(30.5*32), (int)(4.25*32));
-			g.drawString(health[1], (int)(34.5*32), (int)(4.25*32));
-
-			g.drawString("Player 3", (int)(22.5*32), (int)(5.25*32));
-			g.drawString(pts[2], (int)(26.5*32), (int)(5.25*32));
-			g.drawString(cns[2], (int)(30.5*32), (int)(5.25*32));
-			g.drawString(health[2], (int)(34.5*32), (int)(5.25*32));
-
-			g.drawString("Player 4", (int)(22.5*32), (int)(6.25*32));
-			g.drawString(pts[3], (int)(26.5*32), (int)(6.25*32));
-			g.drawString(cns[3], (int)(30.5*32), (int)(6.25*32));
-			g.drawString(health[3], (int)(34.5*32), (int)(6.25*32));
-
-			g.drawString("Player 5", (int)(22.5*32), (int)(7.25*32));
-			g.drawString(pts[4], (int)(26.5*32), (int)(7.25*32));
-			g.drawString(cns[4], (int)(30.5*32), (int)(7.25*32));
-			g.drawString(health[4], (int)(34.5*32), (int)(7.25*32));
+			for(int i=1;i<players.length;i++){
+				g.drawString("Player "+i, (int)((22.5)*32), (int)((3.25+i-1)*32));
+				g.drawString(pts[i-1], (int)(26.5*32), (int)((3.25+i-1)*32));
+				g.drawString(cns[i-1], (int)(30.5*32), (int)((3.25+i-1)*32));
+				g.drawString(health[i-1], (int)(34.5*32), (int)((3.25+i-1)*32));
+			}
 		}
+
 		//    	System.out.println("crappppppppppppppppp");
 	}
 }
