@@ -50,7 +50,7 @@ public class WizardGame extends BasicGame
 	private static String[] stoneCods;
 
 	private static String[] players;
-	public static String[] xc,yc,dir,health;
+	public static String[] xc,yc,dir,health,cns,pts;
 	private coins coinPile;
 	private lifes lifePack;
 	private bricks destroyed_brick;
@@ -74,7 +74,7 @@ public class WizardGame extends BasicGame
 			new Play().start();
 			server=new Server();
 			AppGameContainer app = new AppGameContainer(new WizardGame());
-			app.setDisplayMode(640, 640, false);
+			app.setDisplayMode(1280, 640, false);
 
 			app.start();
 		}
@@ -87,7 +87,7 @@ public class WizardGame extends BasicGame
 	@Override
 	public void init(GameContainer container) throws SlickException
 	{
-		grassMap = new TiledMap("Images/map15.tmx");  
+		grassMap = new TiledMap("Images/map16.tmx");  
 
 		Image [] movementUp1 = {new Image("Images/wmg1_bk1.png"), new Image("Images/wmg1_bk2.png")};
 		Image [] movementDown1 = {new Image("Images/wmg1_fr1.png"), new Image("Images/wmg1_fr2.png")};
@@ -191,12 +191,15 @@ public class WizardGame extends BasicGame
 			xc=new String[players.length-1];
 			yc=new String[players.length-1];
 			health=new String[players.length-1];
+			cns=new String[players.length-1];
+			pts=new String[players.length-1];
 			for(int i=1;i<players.length;i++){//S:P0;0,0;0:P1;0,9;0:P2;9,0;0#
 				String[] position=players[i].split(";");
 				//	    		System.out.println("checkkkkk "+position[1]+"  : "+position[2]);
 				dir[i-1]=position[2];
 				xc[i-1]=position[1].split(",")[0];
 				yc[i-1]=position[1].split(",")[1];
+				
 				//	    		System.out.println(xc[i-1]+"^^^^^^^^^^^^^^^^^^^^^^^^^^"+yc[i-1]+"<<<<<<<<<<<<<<<"+dir[i-1]);
 
 				//	    		sprite[i-1].draw(Integer.parseInt(xc)*32, Integer.parseInt(yc)*32, 32, 32);
@@ -243,6 +246,9 @@ public class WizardGame extends BasicGame
 					yc[i-1]=brockenMsg4[i].split(";")[1].split(",")[1];
 					dir[i-1]=brockenMsg4[i].split(";")[2];
 					health[i-1]=brockenMsg4[i].split(";")[4];
+					cns[i-1]=brockenMsg4[i].split(";")[5];
+					pts[i-1]=brockenMsg4[i].split(";")[6];
+					
 					for(int j=0;j<coins.size();j++){
 						if(coins.get(j).getX()==Integer.parseInt(xc[i-1]) && coins.get(j).getY()==Integer.parseInt(yc[i-1])){
 							coins.remove(j);
@@ -255,7 +261,7 @@ public class WizardGame extends BasicGame
 							j--;
 						}
 					}					
-
+					
 				}
 				for(int i=0;i<brockenMsg5.length;i++){
 					if(Integer.parseInt(brockenMsg5[i].split(",")[2])==4){
@@ -390,6 +396,50 @@ public class WizardGame extends BasicGame
 		}
 		for(int i=0;i<lifes.size();i++){
 			lifes.get(i).getAnim().draw(lifes.get(i).getX()*32,lifes.get(i).getY()*32,32,32);
+		}
+		g.drawLine(22*32, 2*32, 38*32, 2*32);
+		g.drawLine(22*32, 3*32, 38*32, 3*32);
+		g.drawLine(22*32, 4*32, 38*32, 4*32);
+		g.drawLine(22*32, 5*32, 38*32, 5*32);
+		g.drawLine(22*32, 6*32, 38*32, 6*32);
+		g.drawLine(22*32, 7*32, 38*32, 7*32);
+		g.drawLine(22*32, 8*32, 38*32, 8*32);
+		g.drawLine(22*32, 2*32, 22*32, 8*32);
+		g.drawLine(26*32, 2*32, 26*32, 8*32);
+		g.drawLine(30*32, 2*32, 30*32, 8*32);
+		g.drawLine(34*32, 2*32, 34*32, 8*32);
+		g.drawLine(38*32, 2*32, 38*32, 8*32);
+		
+		if(pts[0]!=null){
+			g.drawString("Player ID", (int)(22.5*32), (int)(2.25*32));
+			g.drawString("Points", (int)(26.5*32), (int)(2.25*32));
+			g.drawString("Coins", (int)(30.5*32), (int)(2.25*32));
+			g.drawString("Health", (int)(34.5*32), (int)(2.25*32));
+
+			g.drawString("Player 1", (int)(22.5*32), (int)(3.25*32));
+			g.drawString(pts[0], (int)(26.5*32), (int)(3.25*32));
+			g.drawString(cns[0], (int)(30.5*32), (int)(3.25*32));
+			g.drawString(health[0], (int)(34.5*32), (int)(3.25*32));
+
+			g.drawString("Player 2", (int)(22.5*32), (int)(4.25*32));
+			g.drawString(pts[1], (int)(26.5*32), (int)(4.25*32));
+			g.drawString(cns[1], (int)(30.5*32), (int)(4.25*32));
+			g.drawString(health[1], (int)(34.5*32), (int)(4.25*32));
+
+			g.drawString("Player 3", (int)(22.5*32), (int)(5.25*32));
+			g.drawString(pts[2], (int)(26.5*32), (int)(5.25*32));
+			g.drawString(cns[2], (int)(30.5*32), (int)(5.25*32));
+			g.drawString(health[2], (int)(34.5*32), (int)(5.25*32));
+
+			g.drawString("Player 4", (int)(22.5*32), (int)(6.25*32));
+			g.drawString(pts[3], (int)(26.5*32), (int)(6.25*32));
+			g.drawString(cns[3], (int)(30.5*32), (int)(6.25*32));
+			g.drawString(health[3], (int)(34.5*32), (int)(6.25*32));
+
+			g.drawString("Player 5", (int)(22.5*32), (int)(7.25*32));
+			g.drawString(pts[4], (int)(26.5*32), (int)(7.25*32));
+			g.drawString(cns[4], (int)(30.5*32), (int)(7.25*32));
+			g.drawString(health[4], (int)(34.5*32), (int)(7.25*32));
 		}
 		//    	System.out.println("crappppppppppppppppp");
 	}

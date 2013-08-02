@@ -64,7 +64,7 @@ public class AI {
 				//	 		  System.out.print("|"+i+"<->"+(i+10)+"|");
 			}
 		}
-		System.out.println();
+//		System.out.println();
 		Graph graph = new Graph(nodes, edges);
 		DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
 		minLoc=1000;
@@ -112,7 +112,7 @@ public class AI {
 		}
 		dijkstra.execute(nodes.get(x*20+y));
 		path = dijkstra.getPath(nodes.get(min));
-		System.out.println("coin");
+//		System.out.println("coin");
 		//		}
 		/*if(path!=null){
     		for (int k=0;k<path.size();k++) {
