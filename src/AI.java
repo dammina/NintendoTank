@@ -39,42 +39,39 @@ public class AI {
 
 	    }*/
 		System.out.println();
-
+		//configuring vertexes
 		for (int i = 0; i < 400; i++) {
 			Vertex location = new Vertex(i+"", i+"");
 			nodes.add(location);
 		}
 		for(int i=0;i<400;i++){
-			//	 	   cell cl1=new cell(i/10, i%10);
-			//	 	   cell cl2=new cell((i+1)/10, (i+1)%10);
-			//	 	   cell cl3=new cell((i+10)/10, (i+10)%10);
+
+			//configuring graph edges
 			if(i+1<400 && !WizardGame.blocked.contains(i) && !WizardGame.blocked.contains(i+1) && i%20!=19){
 
 				Edge ed1=new Edge(i+"",nodes.get(i), nodes.get(i+1),1);
 				edges.add(ed1);
 				Edge ed2=new Edge(i+"", nodes.get(i+1), nodes.get(i), 1);
 				edges.add(ed2);
-				//	 		   System.out.print("|"+i+"<->"+(i+1)+"|");
 			}
+			//if the cell is blocked it will not added as a graph edge
 			if(i+20<400 && !WizardGame.blocked.contains(i) && !WizardGame.blocked.contains(i+20)){
 				Edge ed1=new Edge(i+"",nodes.get(i), nodes.get(i+20),1);
 				edges.add(ed1);
 				Edge ed2=new Edge(i+"", nodes.get(i+20), nodes.get(i), 1);
 				edges.add(ed2);
-				//	 		  System.out.print("|"+i+"<->"+(i+10)+"|");
 			}
 		}
-//		System.out.println();
 		Graph graph = new Graph(nodes, edges);
 		DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
 		minLoc=1000;
-		//#############################################################################################
-		if(Integer.parseInt(WizardGame.health[WizardGame.playerNo])<=200 && WizardGame.lifes.size()>0){
+		//collect health packs if life level is below 70%
+		if(Integer.parseInt(WizardGame.health[WizardGame.playerNo])<=70 && WizardGame.lifes.size()>0){
 			for(int i=0;i<WizardGame.lifes.size();i++){	
 				dijkstra.execute(nodes.get(x*20+y));
 				health_location=WizardGame.lifes.get(i).getX()*20+WizardGame.lifes.get(i).getY();
 				path = dijkstra.getPath(nodes.get(health_location));	
-
+				//selecting shortest path
 				if(path!=null && path.size()<minLoc){
 					minLoc=path.size();
 					min=health_location;
@@ -82,90 +79,106 @@ public class AI {
 			}
 			dijkstra.execute(nodes.get(x*20+y));
 			path = dijkstra.getPath(nodes.get(min));
-//			System.out.println("health");
 		}
 
-		//##############################################################################################
-		//		System.out.println(Integer.parseInt(WizardGame.health[WizardGame.playerNo]));
-		//		else if(path==null || path.getLast().equals("0")){
+		//collect coin piles
 		for(int i=0;i<WizardGame.coins.size();i++){	
 			dijkstra.execute(nodes.get(x*20+y));
 			coin_location=WizardGame.coins.get(i).getX()*20+WizardGame.coins.get(i).getY();
-			//				System.out.println("££££££££££££: "+coin_location);
 			path = dijkstra.getPath(nodes.get(coin_location));	
 
 			if(path!=null && path.size()<minLoc){
 				minLoc=path.size();
 				min=coin_location;
 			}
-			//	    	path = dijkstra.getPath(nodes.get(41));
-			//	    	System.out.println(path.size());
-			/*if(path!=null){
-	    		for (int k=0;k<path.size();k++) {
-	    			System.out.print(" "+path.get(k));
-	    		}
-	    	}*/	    	
-			/*for (Vertex vertex : path) {
-	    		System.out.print(" "+vertex);
-//	    	}*/
 
 		}
-		//£££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££
 		dijkstra.execute(nodes.get(x*20+y));
 		path = dijkstra.getPath(nodes.get(min));
-//		System.out.println("coin");
-		//		}
-		/*if(path!=null){
-    		for (int k=0;k<path.size();k++) {
-    			System.out.print(" "+path.get(k));
-    		}
-    	}*/
+
 		if(path!=null){
 			for (int k=1;k<path.size();k++) {
 				System.out.print(" "+path.get(k));
 			}
 		}
+		//if there is no coin pile or life pack
 		if(path==null || path.getLast().toString().equals("0")){
-			if((x==0 || x==1 || x==2 || x==3) && !WizardGame.blocked.contains((x+1)*20+y))
+			if((x==0 || x==1 || x==2 || x==3 || x==4 || x==5 || x==6 || x==7) && !WizardGame.blocked.contains((x+1)*20+y))
 				myClient.sendMessage("RIGHT#");
-			else if((x==6 || x==7 || x==8 || x==9) && !WizardGame.blocked.contains((x-1)*20+y))
+			else if((x==12 || x==13 || x==14 || x==15 || x==16 || x==17 || x==18 || x==19) && !WizardGame.blocked.contains((x-1)*20+y))
 				myClient.sendMessage("LEFT#");
-			else if((y==0 || y==1 || y==2 || y==3) && !WizardGame.blocked.contains((x)*20+(y+1)))
+			else if((y==0 || y==1 || y==2 || y==3 || y==4 || y==5 || y==6 || y==7) && !WizardGame.blocked.contains((x)*20+(y+1)))
 				myClient.sendMessage("DOWN#");
-			else if((y==6 || y==7 || y==8 || y==9) && !WizardGame.blocked.contains((x)*20+(y-1)))
+			else if((y==12 || y==13 || y==14 || y==15 || y==16 || y==17 || y==18 || y==19) && !WizardGame.blocked.contains((x)*20+(y-1)))
 				myClient.sendMessage("UP#");
 			else
 				myClient.sendMessage("SHOOT#");
-			//	    	myClient.sendMessage("SHOOT#");
-			//	    	dijkstra.execute(nodes.get(x*10+y));
-			//	    	path = dijkstra.getPath(nodes.get(55));	
-			//	    	myClient.sendMessage("SHOOT#");
-			//	    	System.out.println("min: "+min);
 		}
-
+		//select the move
+		else if(checkNextTwoBlocks(x, y))
+			myClient.sendMessage("SHOOT#");
 		else if(path!=null && Integer.parseInt((path.get(1).toString()))/20>x)
-			myClient.sendMessage("RIGHT#");
+			myClient.sendMessage("RIGHT#");			
 		else if(path!=null && Integer.parseInt((path.get(1).toString()))/20<x)
 			myClient.sendMessage("LEFT#");
 		else if(path!=null && Integer.parseInt((path.get(1).toString()))%20>y)
 			myClient.sendMessage("DOWN#");
 		else if(path!=null && Integer.parseInt((path.get(1).toString()))%20<y)
 			myClient.sendMessage("UP#");
-		/*for(int i=0;i<WizardGame.coins.size();i++){
-			dist=pytho(x, WizardGame.coins.get(i).getX(), y, WizardGame.coins.get(i).getY());
-			if(mindist>dist){
-				mindist=dist;
-				min_dist_coin=WizardGame.coins.get(i);
-			}
-		}*/
 
-
-		//		int rndm=(int)(Math.random()*5);
-		//		myClient.sendMessage(move[rndm]);	
 	}
-	/*public int pytho(int x1,int x2,int y1,int y2){
-		return (int)Math.sqrt(Math.pow((x1-x2), 2)+Math.pow(y1, y2));
-	}*/
+
+	public boolean checkNextTwoBlocks(int x,int y){
+		for(int i=1;i<WizardGame.players.length;i++){
+			
+			if(WizardGame.dir[WizardGame.playerNo].equals("0") && Integer.parseInt(WizardGame.xc[i-1])==x && Integer.parseInt(WizardGame.yc[i-1])<y){
+				if(WizardGame.health[i-1].equals("0")){
+					return false;
+				}
+				return true;
+			}
+			else if(WizardGame.dir[WizardGame.playerNo].equals("2") && Integer.parseInt(WizardGame.xc[i-1])==x && Integer.parseInt(WizardGame.yc[i-1])>y){
+				if(WizardGame.health[i-1].equals("0")){
+					return false;
+				}
+				return true;
+			}else if(WizardGame.dir[WizardGame.playerNo].equals("1") && Integer.parseInt(WizardGame.yc[i-1])==y && Integer.parseInt(WizardGame.xc[i-1])>x){
+				if(WizardGame.health[i-1].equals("0")){
+					return false;
+				}
+				return true;
+			}else if(WizardGame.dir[WizardGame.playerNo].equals("3") && Integer.parseInt(WizardGame.yc[i-1])==y && Integer.parseInt(WizardGame.xc[i-1])<x){
+				if(WizardGame.health[i-1].equals("0")){
+					return false;
+				}
+				return true;
+			}
+			
+			/*if(WizardGame.dir[WizardGame.playerNo].equals("0") && Integer.parseInt(WizardGame.xc[i-1])==x && (Integer.parseInt(WizardGame.yc[i-1])==y-1 || Integer.parseInt(WizardGame.yc[i-1])==y-2 )){
+				if(WizardGame.health[i-1].equals("0")){
+					return false;
+				}
+				return true;
+				
+			}else if(WizardGame.dir[WizardGame.playerNo].equals("2") && Integer.parseInt(WizardGame.xc[i-1])==x && (Integer.parseInt(WizardGame.yc[i-1])==y+1 || Integer.parseInt(WizardGame.yc[i-1])==y+2 )){
+				if(WizardGame.health[i-1].equals("0")){
+					return false;
+				}
+				return true;
+			}else if(WizardGame.dir[WizardGame.playerNo].equals("1") && Integer.parseInt(WizardGame.yc[i-1])==y && (Integer.parseInt(WizardGame.xc[i-1])==x+20 || Integer.parseInt(WizardGame.xc[i-1])==x+40 )){
+				if(WizardGame.health[i-1].equals("0")){
+					return false;
+				}
+				return true;
+			}else if(WizardGame.dir[WizardGame.playerNo].equals("3") && Integer.parseInt(WizardGame.yc[i-1])==y && (Integer.parseInt(WizardGame.xc[i-1])==x-20 || Integer.parseInt(WizardGame.xc[i-1])==x-40 )){
+				if(WizardGame.health[i-1].equals("0")){
+					return false;
+				}
+				return true;
+			}*/
+		}
+		return false;
+	}
 }
 
 class Vertex {

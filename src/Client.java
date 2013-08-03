@@ -16,7 +16,9 @@ public class Client {
     // this method is used to send the message through the Socket  
     void sendMessage(String msg) {
         try {
-            clientSocket = new Socket("127.0.0.1", 6000);
+            clientSocket = new Socket("169.254.129.189", 6000);
+//        	clientSocket = new Socket("127.0.0.1", 6000);
+//        	clientSocket = new Socket("169.254.0.6", 6000);
             write = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
             write.write(msg);
             write.flush();

@@ -49,7 +49,7 @@ public class WizardGame extends BasicGame
 	private static String[] waterCods;
 	private static String[] stoneCods;
 
-	private static String[] players;
+	public static String[] players;
 	public static String[] xc,yc,dir,health,cns,pts;
 	private coins coinPile;
 	private lifes lifePack;
@@ -167,6 +167,7 @@ public class WizardGame extends BasicGame
 			System.out.println(msg);
 			String [] brockenMsg = msg.split(":");
 			playerNo=Integer.parseInt(brockenMsg[1].charAt(1)+"");
+			//			System.out.println("PLAYER NO:"+playerNo);
 			brickCods=brockenMsg[2].split(";");
 			stoneCods=brockenMsg[3].split(";");
 			waterCods=brockenMsg[4].split(";");
@@ -195,17 +196,11 @@ public class WizardGame extends BasicGame
 			pts=new String[players.length-1];
 			for(int i=1;i<players.length;i++){//S:P0;0,0;0:P1;0,9;0:P2;9,0;0#
 				String[] position=players[i].split(";");
-				//	    		System.out.println("checkkkkk "+position[1]+"  : "+position[2]);
 				dir[i-1]=position[2];
 				xc[i-1]=position[1].split(",")[0];
 				yc[i-1]=position[1].split(",")[1];
-				
-				//	    		System.out.println(xc[i-1]+"^^^^^^^^^^^^^^^^^^^^^^^^^^"+yc[i-1]+"<<<<<<<<<<<<<<<"+dir[i-1]);
-
-				//	    		sprite[i-1].draw(Integer.parseInt(xc)*32, Integer.parseInt(yc)*32, 32, 32);
 			}
 
-			////////////////////////////////////////////////////////
 
 
 		} catch (IOException e) {
@@ -213,7 +208,6 @@ public class WizardGame extends BasicGame
 			e.printStackTrace();
 		}
 
-		//    	sprite = right;
 
 	}
 
@@ -225,21 +219,16 @@ public class WizardGame extends BasicGame
 		myTank=new Client();
 		intelli=new AI();
 
-		//    	myTank.sendMessage("LEFT#");
-		//    	myTank.sendMessage("UP#");
 
 		try {
 
 			msg=server.readMessage();
 
-			//			System.out.println("updateeeeeee:::::::::::::"+msg);
 			String[] brockenMsg3=msg.split("#");
 			String[] brockenMsg4=brockenMsg3[0].split(":");
 
-			//			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::::::::::::       "+brockenMsg5.length);
 
 			if(brockenMsg4[0].equals("G")){
-				//				intelli.AIfunc();
 				String[] brockenMsg5=brockenMsg4[players.length].split(";");
 				for(int i=1;i<players.length;i++){
 					xc[i-1]=brockenMsg4[i].split(";")[1].split(",")[0];
@@ -248,7 +237,7 @@ public class WizardGame extends BasicGame
 					health[i-1]=brockenMsg4[i].split(";")[4];
 					cns[i-1]=brockenMsg4[i].split(";")[5];
 					pts[i-1]=brockenMsg4[i].split(";")[6];
-					
+
 					for(int j=0;j<coins.size();j++){
 						if(coins.get(j).getX()==Integer.parseInt(xc[i-1]) && coins.get(j).getY()==Integer.parseInt(yc[i-1])){
 							coins.remove(j);
@@ -261,7 +250,7 @@ public class WizardGame extends BasicGame
 							j--;
 						}
 					}					
-					
+
 				}
 				for(int i=0;i<brockenMsg5.length;i++){
 					if(Integer.parseInt(brockenMsg5[i].split(",")[2])==4){
@@ -299,32 +288,7 @@ public class WizardGame extends BasicGame
 			e.printStackTrace();
 		}
 
-		/*   	Input input = container.getInput();
-    	if (input.isKeyDown(Input.KEY_UP))
-    	{
-    	    sprite = up;
-    	    sprite.update(delta);
-    	    // The lower the delta the slowest the sprite will animate.
-    	    y -= delta * 0.1f;
-    	}
-    	else if (input.isKeyDown(Input.KEY_DOWN))
-    	{
-    	    sprite = down;
-    	    sprite.update(delta);
-    	    y += delta * 0.1f;
-    	}
-    	else if (input.isKeyDown(Input.KEY_LEFT))
-    	{
-    	    sprite = left;
-    	    sprite.update(delta);
-    	    x -= delta * 0.1f;
-    	}
-    	else if (input.isKeyDown(Input.KEY_RIGHT))
-    	{
-    	    sprite = right;
-    	    sprite.update(delta);
-    	    x += delta * 0.1f;
-    	}*/
+
 	}
 
 	public void render(GameContainer container, Graphics g) throws SlickException
@@ -332,7 +296,6 @@ public class WizardGame extends BasicGame
 
 		grassMap.render(0, 0);
 		for(int i=1;i<players.length;i++){
-			//    		System.out.println(xc[i-1]+"|||||||||||||||||||||||||||"+yc[i-1]+"//////////////////"+dir[i-1]);
 			if(dir[i-1].equals("0"))
 				sprite[i-1]=up[i-1];
 			else if(dir[i-1].equals("1"))
@@ -346,9 +309,6 @@ public class WizardGame extends BasicGame
 
 		}
 
-		//    	sprite.draw((int)x, (int)y,32,32);
-
-		//    	bricks[0].draw((int)x,(int)y,32,32);
 
 		for(int i=0;i<brickCods.length;i++){
 			temp=false;
@@ -364,14 +324,12 @@ public class WizardGame extends BasicGame
 			}
 			if(!blocked.contains(cl))
 				blocked.add(cl);
-			//    		System.out.println("#####B "+x+" "+y);
 		}
 
 		for(int i=0;i<stoneCods.length;i++){
 
 			x=Integer.parseInt(stoneCods[i].split(",")[0]);
 			y=Integer.parseInt(stoneCods[i].split(",")[1]);
-			//    		System.out.println("#####S "+x+" "+y);
 			stones[i].draw((int)x*32,(int)y*32,32,32);
 			cl=(int)x*20+(int)y;
 			if(!blocked.contains(cl))
@@ -384,7 +342,6 @@ public class WizardGame extends BasicGame
 				y=Integer.parseInt(waterCods[i].split(",")[1].split("#")[0]);
 			else
 				y=Integer.parseInt(waterCods[i].split(",")[1]);
-			//    		System.out.println("#####W "+x+" "+y);
 			water[i].draw((int)x*32,(int)y*32,32,32);
 			cl=(int)x*20+(int)y;
 			if(!blocked.contains(cl))
@@ -409,21 +366,22 @@ public class WizardGame extends BasicGame
 		g.drawLine(30*32, 2*32, 30*32, 8*32);
 		g.drawLine(34*32, 2*32, 34*32, 8*32);
 		g.drawLine(38*32, 2*32, 38*32, 8*32);
-		
+
 		g.drawString("Player ID", (int)(22.5*32), (int)(2.25*32));
 		g.drawString("Points", (int)(26.5*32), (int)(2.25*32));
 		g.drawString("Coins", (int)(30.5*32), (int)(2.25*32));
 		g.drawString("Health", (int)(34.5*32), (int)(2.25*32));
-		//		System.out.println("playes.lenght="+players.length);
 		if(pts[0]!=null){
 			for(int i=1;i<players.length;i++){
-				g.drawString("Player "+i, (int)((22.5)*32), (int)((3.25+i-1)*32));
+				if((i-1)==playerNo)
+					g.drawString("Topiya "+i, (int)((22.5)*32), (int)((3.25+i-1)*32));
+				else
+					g.drawString("Player "+i, (int)((22.5)*32), (int)((3.25+i-1)*32));
 				g.drawString(pts[i-1], (int)(26.5*32), (int)((3.25+i-1)*32));
 				g.drawString(cns[i-1], (int)(30.5*32), (int)((3.25+i-1)*32));
 				g.drawString(health[i-1], (int)(34.5*32), (int)((3.25+i-1)*32));
 			}
 		}
 
-		//    	System.out.println("crappppppppppppppppp");
 	}
 }
